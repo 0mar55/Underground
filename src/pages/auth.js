@@ -90,7 +90,7 @@ export default function Auth() {
                   <label className="block text-sm font-medium mb-1">Email</label>
                   <input 
                     type="email" 
-                    className="input-field w-full"
+                    className="w-full p-3 rounded bg-gray-800 border border-gray-600 text-white"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -101,7 +101,7 @@ export default function Auth() {
                   <label className="block text-sm font-medium mb-1">Password</label>
                   <input 
                     type="password" 
-                    className="input-field w-full"
+                    className="w-full p-3 rounded bg-gray-800 border border-gray-600 text-white"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
