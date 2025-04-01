@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
@@ -7,43 +6,41 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'uv-dark': 'rgba(5,0,30,0.9)',
-        'uv-purple': '#9d4edd',
-        'uv-blue': '#3a86ff',
-        'uv-pink': '#ff6ac1',
-        'uv-green': '#2cda9d',
+        primary: {
+          DEFAULT: '#8B5CF6',
+          dark: '#7C3AED',
+        },
+        secondary: {
+          DEFAULT: '#EC4899',
+          dark: '#DB2777',
+        },
+        dark: {
+          DEFAULT: '#1F2937',
+          lighter: '#374151',
+        },
+        neon: {
+          pink: '#ff00ff',
+          blue: '#00ffff',
+          green: '#00ff00',
+          purple: '#8B5CF6',
+        },
       },
-      boxShadow: {
-        'neon-blue': '0 0 5px rgba(58, 134, 255, 0.5), 0 0 20px rgba(58, 134, 255, 0.3)',
-        'neon-purple': '0 0 5px rgba(157, 78, 221, 0.5), 0 0 20px rgba(157, 78, 221, 0.3)',
-        'neon-pink': '0 0 5px rgba(255, 106, 193, 0.5), 0 0 20px rgba(255, 106, 193, 0.3)',
+      textColor: {
+        white: '#FFFFFF',
+        gray: {
+          100: '#F3F4F6',
+          200: '#E5E7EB',
+          300: '#D1D5DB',
+          400: '#9CA3AF',
+          500: '#6B7280',
+        },
+        black: '#000000',
+      },
+      backgroundColor: {
+        white: '#FFFFFF',
+        black: '#000000',
       },
     },
   },
   plugins: [],
-  safelist: [
-    'text-white',
-    'text-gray-100',
-    'text-gray-200',
-    'text-gray-300',
-    'text-gray-400',
-    'text-gray-500',
-    'bg-gray-800',
-    'bg-gray-900',
-    'bg-black',
-    'rounded',
-    'rounded-lg',
-    'rounded-xl',
-    'shadow',
-    'shadow-lg',
-    'shadow-xl',
-    'p-2',
-    'p-4',
-    'p-6',
-    'p-8',
-    'm-2',
-    'm-4',
-    'm-6',
-    'm-8',
-  ]
 }
