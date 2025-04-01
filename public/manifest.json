@@ -1,0 +1,21 @@
+{
+  "name": "Underground Chilling Room",
+  "short_name": "Underground",
+  "description": "Mobile app for Underground chilling room rental service with food, beverages, and arguile service",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F0B1E",
+  "theme_color": "#5D3FD3",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

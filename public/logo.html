@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Underground Logo</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #05001e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Arial', sans-serif;
+    }
+    
+    .logo-container {
+      position: relative;
+      width: 300px;
+      height: 300px;
+    }
+    
+    .circle {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 4px solid #29d1ff;
+      box-shadow: 
+        0 0 10px #29d1ff,
+        0 0 20px #29d1ff,
+        inset 0 0 5px #29d1ff;
+      animation: pulse 3s infinite;
+    }
+    
+    .couch {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -70%);
+      width: 60%;
+      height: 30%;
+    }
+    
+    .couch-base {
+      position: absolute;
+      width: 100%;
+      height: 60%;
+      bottom: 0;
+      background-color: #39ff5e;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 
+        0 0 10px #39ff5e,
+        0 0 20px #39ff5e;
+    }
+    
+    .couch-back {
+      position: absolute;
+      width: 100%;
+      height: 40%;
+      top: 0;
+      background-color: #39ff5e;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 
+        0 0 10px #39ff5e,
+        0 0 20px #39ff5e;
+    }
+    
+    .couch-arm-left, .couch-arm-right {
+      position: absolute;
+      width: 15%;
+      height: 100%;
+      background-color: #39ff5e;
+      box-shadow: 
+        0 0 10px #39ff5e,
+        0 0 20px #39ff5e;
+    }
+    
+    .couch-arm-left {
+      left: -15%;
+      border-radius: 10px 0 0 10px;
+    }
+    
+    .couch-arm-right {
+      right: -15%;
+      border-radius: 0 10px 10px 0;
+    }
+    
+    .logo-text {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ff29cd;
+      font-size: 48px;
+      font-weight: bold;
+      text-shadow: 
+        0 0 10px #ff29cd,
+        0 0 20px #ff29cd,
+        0 0 30px #ff29cd;
+      white-space: nowrap;
+    }
+    
+    .speaker {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #ff29cd;
+      box-shadow: 
+        0 0 10px #ff29cd,
+        0 0 20px #ff29cd;
+    }
+    
+    .speaker-left {
+      left: -10%;
+      top: 30%;
+    }
+    
+    .speaker-right {
+      right: -10%;
+      top: 30%;
+    }
+    
+    .speaker-dot {
+      position: absolute;
+      background-color: #05001e;
+      border-radius: 50%;
+    }
+    
+    .speaker-center {
+      width: 30%;
+      height: 30%;
+      top: 35%;
+      left: 35%;
+    }
+    
+    .speaker-small {
+      width: 15%;
+      height: 15%;
+    }
+    
+    .dot-1 { top: 15%; left: 15%; }
+    .dot-2 { top: 15%; right: 15%; }
+    .dot-3 { bottom: 15%; left: 15%; }
+    .dot-4 { bottom: 15%; right: 15%; }
+    .dot-5 { top: 15%; left: 50%; transform: translateX(-50%); }
+    .dot-6 { top: 50%; left: 15%; transform: translateY(-50%); }
+    .dot-7 { top: 50%; right: 15%; transform: translateY(-50%); }
+    .dot-8 { bottom: 15%; left: 50%; transform: translateX(-50%); }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 10px #29d1ff, 0 0 20px #29d1ff, inset 0 0 5px #29d1ff; }
+      50% { box-shadow: 0 0 15px #29d1ff, 0 0 30px #29d1ff, inset 0 0 10px #29d1ff; }
+      100% { box-shadow: 0 0 10px #29d1ff, 0 0 20px #29d1ff, inset 0 0 5px #29d1ff; }
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-container">
+    <div class="circle"></div>
+    
+    <div class="couch">
+      <div class="couch-back"></div>
+      <div class="couch-base"></div>
+      <div class="couch-arm-left"></div>
+      <div class="couch-arm-right"></div>
+    </div>
+    
+    <div class="speaker speaker-left">
+      <div class="speaker-dot speaker-center"></div>
+      <div class="speaker-dot speaker-small dot-1"></div>
+      <div class="speaker-dot speaker-small dot-2"></div>
+      <div class="speaker-dot speaker-small dot-3"></div>
+      <div class="speaker-dot speaker-small dot-4"></div>
+      <div class="speaker-dot speaker-small dot-5"></div>
+      <div class="speaker-dot speaker-small dot-6"></div>
+      <div class="speaker-dot speaker-small dot-7"></div>
+      <div class="speaker-dot speaker-small dot-8"></div>
+    </div>
+    
+    <div class="speaker speaker-right">
+      <div class="speaker-dot speaker-center"></div>
+      <div class="speaker-dot speaker-small dot-1"></div>
+      <div class="speaker-dot speaker-small dot-2"></div>
+      <div class="speaker-dot speaker-small dot-3"></div>
+      <div class="speaker-dot speaker-small dot-4"></div>
+      <div class="speaker-dot speaker-small dot-5"></div>
+      <div class="speaker-dot speaker-small dot-6"></div>
+      <div class="speaker-dot speaker-small dot-7"></div>
+      <div class="speaker-dot speaker-small dot-8"></div>
+    </div>
+    
+    <div class="logo-text">Underground</div>
+  </div>
+</body>
+</html>
