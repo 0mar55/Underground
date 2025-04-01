@@ -1,3 +1,4 @@
+/** @type {import('next').NextConfig} */
 const withPWA = require('next-pwa')({
   dest: 'public',
   register: true,
@@ -11,7 +12,6 @@ module.exports = withPWA({
   },
   env: {
     NEXT_PUBLIC_SITE_URL: 'https://undergr0und.space',
-    MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/underground_db',
   },
   async headers()  {
     return [
