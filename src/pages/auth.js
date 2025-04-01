@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 export default function Auth() {
+  const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,21 +26,21 @@ export default function Auth() {
       // For demo purposes, hardcoded credentials
       if (isLogin) {
         if (email === 'owner@underground.com' && password === 'password') {
-          window.location.href = '/dashboard/owner';
+          router.push('/dashboard/owner');
         } else if (email === 'manager@underground.com' && password === 'password') {
-          window.location.href = '/dashboard/manager';
+          router.push('/dashboard/manager');
         } else if (email === 'accountant@underground.com' && password === 'password') {
-          window.location.href = '/dashboard/accountant';
+          router.push('/dashboard/accountant');
         } else if (email === 'staff@underground.com' && password === 'password') {
-          window.location.href = '/staff/rooms';
+          router.push('/staff/rooms');
         } else if (email === 'client@underground.com' && password === 'password') {
-          window.location.href = '/';
+          router.push('/');
         } else {
           setError('Invalid email or password');
         }
       } else {
         // In a real app, this would create a new user in the database
-        window.location.href = '/';
+        router.push('/');
       }
     }, 1500);
   };
@@ -54,13 +56,15 @@ export default function Auth() {
         <header className="bg-[rgba(5,0,30,0.8)] backdrop-blur-md p-4 shadow-[0_0_15px_rgba(var(--neon-blue),0.5)]">
           <div className="container mx-auto flex justify-center items-center">
             <div className="logo-container">
-              <Image 
-                src="/images/logo-simple.webp" 
-                alt="Underground Logo" 
-                width={200} 
-                height={50} 
-                className="h-10 w-auto"
-              />
+              <Link href="/">
+                <Image 
+                  src="/images/logo-simple.webp" 
+                  alt="Underground Logo" 
+                  width={200} 
+                  height={50} 
+                  className="h-10 w-auto"
+                />
+              </Link>
             </div>
           </div>
         </header>
