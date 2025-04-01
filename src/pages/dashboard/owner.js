@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 // Import auth service
 const useAuth = () => {
+  const router = useRouter();
+  
   // In a real app, this would be imported from the auth service
   const checkAuth = () => {
     const user = localStorage.getItem('underground_user');
@@ -13,13 +16,14 @@ const useAuth = () => {
 
   const logout = () => {
     localStorage.removeItem('underground_user');
-    window.location.href = '/auth';
+    router.push('/auth');
   };
 
   return { checkAuth, logout };
 };
 
 export default function Dashboard() {
+  const router = useRouter();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const { checkAuth, logout } = useAuth();
@@ -44,7 +48,7 @@ export default function Dashboard() {
       setLoading(false);
     } else {
       // Redirect to auth page if not authenticated or not owner
-      window.location.href = '/auth';
+      router.push('/auth');
     }
   }, []);
 
@@ -74,15 +78,13 @@ export default function Dashboard() {
         <header className="bg-[rgba(5,0,30,0.8)] backdrop-blur-md p-4 shadow-[0_0_15px_rgba(var(--neon-blue),0.5)]">
           <div className="container mx-auto flex justify-between items-center">
             <Link href="/dashboard/owner">
-              <a className="logo-container">
-                <Image 
-                  src="/images/logo-simple.webp" 
-                  alt="Underground Logo" 
-                  width={200} 
-                  height={50} 
-                  className="h-10 w-auto"
-                />
-              </a>
+              <Image 
+                src="/images/logo-simple.webp" 
+                alt="Underground Logo" 
+                width={200} 
+                height={50} 
+                className="h-10 w-auto"
+              />
             </Link>
             <div className="flex items-center space-x-4">
               <span className="text-white neon-text">{userData?.name} <span className="text-[rgb(var(--neon-green))]">(Owner)</span></span>
@@ -227,101 +229,53 @@ export default function Dashboard() {
                         <td className="py-2 px-3">4 hours</td>
                         <td className="py-2 px-3 text-right text-[rgb(var(--neon-pink))]">{formatPrice(2000000)} LBP</td>
                       </tr>
-                      <tr className="border-b border-[rgba(var(--neon-pink),0.1)]">
-                        <td className="py-2 px-3">Blue Velvet</td>
-                        <td className="py-2 px-3">Layla Khoury</td>
-                        <td className="py-2 px-3">Mar 31, 2025</td>
-                        <td className="py-2 px-3">3 hours</td>
-                        <td className="py-2 px-3 text-right text-[rgb(var(--neon-pink))]">{formatPrice(1125000)} LBP</td>
-                      </tr>
                     </tbody>
                   </table>
-                </div>
-                <div className="mt-4 text-right">
-                  <button className="text-[rgb(var(--neon-pink))] hover:underline text-sm neon-text">View All Bookings</button>
                 </div>
               </div>
             </div>
             
-            <div className="lg:col-span-1">
-              <div className="card mb-6 neon-border-green">
+            <div className="space-y-6">
+              <div className="card neon-border-green">
                 <h3 className="text-xl font-bold mb-4 neon-text-green">Quick Actions</h3>
-                <div className="grid grid-cols-1 gap-3">
-                  <Link href="/staff/rooms">
-                    <a className="btn-primary">Manage Rooms</a>
-                  </Link>
-                  <Link href="/staff/orders">
-                    <a className="btn-primary">View Orders</a>
-                  </Link>
-                  <Link href="/dashboard/reports">
-                    <a className="btn-primary">Generate Reports</a>
-                  </Link>
-                  <Link href="/dashboard/inventory">
-                    <a className="btn-primary">Check Inventory</a>
-                  </Link>
-                </div>
-              </div>
-              
-              <div className="card mb-6 neon-border-blue">
-                <h3 className="text-xl font-bold mb-4 neon-text-blue">Staff Performance</h3>
-                <div className="space-y-4">
-                  <div className="bg-[rgba(15,10,40,0.7)] p-3 rounded-lg">
-                    <div className="flex justify-between items-center mb-1">
-                      <span>Samir Nassar</span>
-                      <span className="text-sm text-[rgb(var(--neon-green))]">92%</span>
-                    </div>
-                    <div className="w-full bg-[rgba(30,20,60,0.7)] rounded-full h-2">
-                      <div className="bg-[rgb(var(--neon-green))] h-2 rounded-full shadow-[0_0_10px_rgba(var(--neon-green),0.7)]" style={{ width: '92%' }}></div>
-                    </div>
-                  </div>
-                  <div className="bg-[rgba(15,10,40,0.7)] p-3 rounded-lg">
-                    <div className="flex justify-between items-center mb-1">
-                      <span>Zeinab Aoun</span>
-                      <span className="text-sm text-[rgb(var(--neon-green))]">87%</span>
-                    </div>
-                    <div className="w-full bg-[rgba(30,20,60,0.7)] rounded-full h-2">
-                      <div className="bg-[rgb(var(--neon-green))] h-2 rounded-full shadow-[0_0_10px_rgba(var(--neon-green),0.7)]" style={{ width: '87%' }}></div>
-                    </div>
-                  </div>
-                  <div className="bg-[rgba(15,10,40,0.7)] p-3 rounded-lg">
-                    <div className="flex justify-between items-center mb-1">
-                      <span>Karim Farah</span>
-                      <span className="text-sm text-[rgb(var(--neon-orange))]">78%</span>
-                    </div>
-                    <div className="w-full bg-[rgba(30,20,60,0.7)] rounded-full h-2">
-                      <div className="bg-[rgb(var(--neon-orange))] h-2 rounded-full shadow-[0_0_10px_rgba(var(--neon-orange),0.7)]" style={{ width: '78%' }}></div>
-                    </div>
-                  </div>
-                  <div className="bg-[rgba(15,10,40,0.7)] p-3 rounded-lg">
-                    <div className="flex justify-between items-center mb-1">
-                      <span>Nour Saleh</span>
-                      <span className="text-sm text-[rgb(var(--neon-orange))]">65%</span>
-                    </div>
-                    <div className="w-full bg-[rgba(30,20,60,0.7)] rounded-full h-2">
-                      <div className="bg-[rgb(var(--neon-orange))] h-2 rounded-full shadow-[0_0_10px_rgba(var(--neon-orange),0.7)]" style={{ width: '65%' }}></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="card neon-border">
-                <h3 className="text-xl font-bold mb-4 neon-text">Popular Items</h3>
                 <div className="space-y-3">
-                  <div className="bg-[rgba(15,10,40,0.7)] p-3 rounded-lg flex justify-between items-center">
-                    <span>Premium Flavor Arguile</span>
-                    <span className="bg-[rgb(var(--neon-pink))] text-white px-2 py-1 rounded text-xs shadow-[0_0_10px_rgba(var(--neon-pink),0.7)]">42 orders</span>
+                  <Link href="/dashboard/data" className="btn-primary w-full block text-center">
+                    View Business Data
+                  </Link>
+                  <Link href="/dashboard/users" className="btn-secondary w-full block text-center">
+                    Manage Users
+                  </Link>
+                  <Link href="/dashboard/roles" className="btn-secondary w-full block text-center">
+                    Manage Roles
+                  </Link>
+                  <Link href="/dashboard/excel" className="btn-secondary w-full block text-center">
+                    Export to Excel
+                  </Link>
+                </div>
+              </div>
+              
+              <div className="card neon-border-blue">
+                <h3 className="text-xl font-bold mb-4 neon-text-blue">System Status</h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span>Database</span>
+                    <span className="text-[rgb(var(--neon-green))]">Online</span>
                   </div>
-                  <div className="bg-[rgba(15,10,40,0.7)] p-3 rounded-lg flex justify-between items-center">
-                    <span>Mezze Platter</span>
-                    <span className="bg-[rgb(var(--neon-pink))] text-white px-2 py-1 rounded text-xs shadow-[0_0_10px_rgba(var(--neon-pink),0.7)]">38 orders</span>
+                  <div className="flex justify-between items-center">
+                    <span>Staff App</span>
+                    <span className="text-[rgb(var(--neon-green))]">Online</span>
                   </div>
-                  <div className="bg-[rgba(15,10,40,0.7)] p-3 rounded-lg flex justify-between items-center">
-                    <span>Chicken Wings</span>
-                    <span className="bg-[rgb(var(--neon-pink))] text-white px-2 py-1 rounded text-xs shadow-[0_0_10px_rgba(var(--neon-pink),0.7)]">31 orders</span>
+                  <div className="flex justify-between items-center">
+                    <span>Notification System</span>
+                    <span className="text-[rgb(var(--neon-green))]">Online</span>
                   </div>
-                  <div className="bg-[rgba(15,10,40,0.7)] p-3 rounded-lg flex justify-between items-center">
-                    <span>Mocktails</span>
-                    <span className="bg-[rgb(var(--neon-pink))] text-white px-2 py-1 rounded text-xs shadow-[0_0_10px_rgba(var(--neon-pink),0.7)]">27 orders</span>
+                  <div className="flex justify-between items-center">
+                    <span>Backup System</span>
+                    <span className="text-[rgb(var(--neon-green))]">Online</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Last Backup</span>
+                    <span>Today, 04:00 AM</span>
                   </div>
                 </div>
               </div>
