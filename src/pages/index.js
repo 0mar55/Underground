@@ -17,17 +17,14 @@ export default function Home() {
     
     // If authenticated, redirect to appropriate dashboard
     if (isAuthenticated && user) {
-      if (user.role === 'owner') {
-        router.push('/dashboard/owner');
-      } else if (user.role === 'manager') {
-        router.push('/dashboard/manager');
-      } else if (user.role === 'accountant') {
-        router.push('/dashboard/reports/accountant');
-      } else if (user.role === 'staff') {
-        router.push('/dashboard/reports/staff');
-      } else {
-        router.push('/booking');
-      }
+      const redirectPath = 
+        user.role === 'owner' ? '/dashboard/owner' :
+        user.role === 'manager' ? '/dashboard/manager' :
+        user.role === 'accountant' ? '/dashboard/reports/accountant' :
+        user.role === 'staff' ? '/dashboard/reports/staff' :
+        '/booking';
+      
+      router.push(redirectPath);
     }
   }, [router]);
 
