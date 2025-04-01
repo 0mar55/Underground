@@ -1,33 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { checkAuthStatus } from '../services/auth';
+import Image from 'next/image';
 
 export default function Home() {
-  const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-  
-  useEffect(() => {
-    // Check if user is already authenticated
-    const { isAuthenticated, user } = checkAuthStatus();
-    setIsAuthenticated(isAuthenticated);
-    setUser(user);
-    
-    // If authenticated, redirect to appropriate dashboard
-    if (isAuthenticated && user) {
-      const redirectPath = 
-        user.role === 'owner' ? '/dashboard/owner' :
-        user.role === 'manager' ? '/dashboard/manager' :
-        user.role === 'accountant' ? '/dashboard/reports/accountant' :
-        user.role === 'staff' ? '/dashboard/reports/staff' :
-        '/booking';
-      
-      router.push(redirectPath);
-    }
-  }, [router]);
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
       <Head>
@@ -68,13 +44,13 @@ export default function Home() {
               </div>
               
               <div className="mt-8">
-                <h2 className="text-2xl font-bold mb-4 neon-text-purple">Create an Account or Sign In</h2>
+                <h2 className="text-2xl font-bold mb-4 neon-text-purple">Explore Our Services</h2>
                 <div className="flex flex-col space-y-4">
-                  <Link href="/auth" className="px-6 py-3 rounded purple-blue-gradient text-white font-bold text-center">
-                    Sign In / Register
+                  <Link href="/dashboard/overview" className="px-6 py-3 rounded purple-blue-gradient text-white font-bold text-center">
+                    View Rooms & Services
                   </Link>
                   <p className="text-center text-gray-400">
-                    New clients can create an account during their first visit
+                    Contact us at +961 81 540 918 for reservations
                   </p>
                 </div>
               </div>
