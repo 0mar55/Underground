@@ -2,138 +2,82 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom styles */
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 5, 0, 30;
-  --background-end-rgb: 15, 20, 60;
-  
-  /* Neon colors from the provided images */
-  --neon-pink: 255, 41, 205;
-  --neon-blue: 41, 209, 255;
-  --neon-green: 57, 255, 94;
-  --neon-purple: 149, 41, 255;
-  --neon-white: 255, 255, 255;
-  --neon-orange: 255, 126, 41;
-  
-  /* Furniture colors */
-  --purple-couch: 149, 41, 180;
-  --blue-couch: 41, 90, 180;
+  --primary-color: #8B5CF6;
+  --secondary-color: #EC4899;
+  --neon-pink: #ff00ff;
+  --neon-blue: #00ffff;
+  --neon-green: #00ff00;
+  --neon-purple: #8B5CF6;
+  --dark-bg: #121212;
+  --dark-surface: #1F2937;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      rgb(var(--background-start-rgb)),
-      rgb(var(--background-end-rgb))
-    )
-    fixed;
-  background-image: url('/images/noise-texture.png');
-  background-blend-mode: overlay;
-  background-size: 200px;
-  min-height: 100vh;
+  background-color: var(--dark-bg);
+  color: white;
+  font-family: 'Inter', sans-serif;
 }
 
-/* Neon text effect */
 .neon-text {
-  text-shadow: 
-    0 0 5px rgba(var(--neon-pink), 0.8),
-    0 0 10px rgba(var(--neon-pink), 0.5),
-    0 0 15px rgba(var(--neon-pink), 0.3);
-  color: rgb(var(--neon-white));
+  text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
+  color: white;
 }
 
 .neon-text-blue {
-  text-shadow: 
-    0 0 5px rgba(var(--neon-blue), 0.8),
-    0 0 10px rgba(var(--neon-blue), 0.5),
-    0 0 15px rgba(var(--neon-blue), 0.3);
-  color: rgb(var(--neon-white));
+  text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+  color: white;
 }
 
 .neon-text-green {
-  text-shadow: 
-    0 0 5px rgba(var(--neon-green), 0.8),
-    0 0 10px rgba(var(--neon-green), 0.5),
-    0 0 15px rgba(var(--neon-green), 0.3);
-  color: rgb(var(--neon-white));
+  text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+  color: white;
 }
 
-/* Neon border effect */
+.neon-text-purple {
+  text-shadow: 0 0 5px var(--neon-purple), 0 0 10px var(--neon-purple), 0 0 20px var(--neon-purple);
+  color: white;
+}
+
 .neon-border {
-  box-shadow: 
-    0 0 5px rgba(var(--neon-pink), 0.8),
-    0 0 10px rgba(var(--neon-pink), 0.5),
-    inset 0 0 5px rgba(var(--neon-pink), 0.2);
-  border: 1px solid rgba(var(--neon-pink), 0.7);
+  box-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+  border: 1px solid var(--neon-pink);
 }
 
 .neon-border-blue {
-  box-shadow: 
-    0 0 5px rgba(var(--neon-blue), 0.8),
-    0 0 10px rgba(var(--neon-blue), 0.5),
-    inset 0 0 5px rgba(var(--neon-blue), 0.2);
-  border: 1px solid rgba(var(--neon-blue), 0.7);
+  box-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
+  border: 1px solid var(--neon-blue);
 }
 
 .neon-border-green {
-  box-shadow: 
-    0 0 5px rgba(var(--neon-green), 0.8),
-    0 0 10px rgba(var(--neon-green), 0.5),
-    inset 0 0 5px rgba(var(--neon-green), 0.2);
-  border: 1px solid rgba(var(--neon-green), 0.7);
+  box-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green);
+  border: 1px solid var(--neon-green);
 }
 
-/* Glow effect for cards and elements */
-.neon-glow {
-  box-shadow: 
-    0 0 10px rgba(var(--neon-pink), 0.3),
-    0 0 20px rgba(var(--neon-blue), 0.2),
-    0 0 30px rgba(var(--neon-purple), 0.1);
+.neon-border-purple {
+  box-shadow: 0 0 5px var(--neon-purple), 0 0 10px var(--neon-purple);
+  border: 1px solid var(--neon-purple);
 }
 
-/* Background with subtle plant pattern */
-.plant-bg {
-  background-image: url('/images/plant-pattern.png');
-  background-size: 300px;
-  background-blend-mode: soft-light;
-  background-opacity: 0.1;
+.neon-card {
+  background-color: rgba(31, 41, 55, 0.8);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+  border: 1px solid rgba(139, 92, 246, 0.2);
 }
 
-@layer components {
-  .btn-primary {
-    @apply bg-gradient-to-r from-[rgba(var(--neon-pink),0.8)] to-[rgba(var(--neon-purple),0.8)] hover:from-[rgba(var(--neon-pink),1)] hover:to-[rgba(var(--neon-purple),1)] text-white font-bold py-2 px-4 rounded shadow-[0_0_10px_rgba(var(--neon-pink),0.5)] transition-all duration-300;
-  }
-  
-  .btn-secondary {
-    @apply bg-gradient-to-r from-[rgba(var(--neon-blue),0.8)] to-[rgba(var(--neon-green),0.8)] hover:from-[rgba(var(--neon-blue),1)] hover:to-[rgba(var(--neon-green),1)] text-white font-bold py-2 px-4 rounded shadow-[0_0_10px_rgba(var(--neon-blue),0.5)] transition-all duration-300;
-  }
-  
-  .card {
-    @apply bg-[rgba(5,0,30,0.7)] backdrop-blur-sm rounded-lg p-6 neon-glow transition-all duration-300 hover:shadow-[0_0_15px_rgba(var(--neon-pink),0.4),0_0_30px_rgba(var(--neon-blue),0.3)];
-  }
-  
-  .input-field {
-    @apply bg-[rgba(15,10,40,0.7)] border border-[rgba(var(--neon-blue),0.3)] rounded py-2 px-3 text-white leading-tight focus:outline-none focus:border-[rgba(var(--neon-pink),0.7)] focus:shadow-[0_0_8px_rgba(var(--neon-pink),0.4)] transition-all duration-300;
-  }
-  
-  .logo-container {
-    @apply relative flex items-center justify-center;
-  }
-  
-  .logo-text {
-    @apply font-bold text-white text-shadow-[0_0_10px_rgba(var(--neon-pink),0.8),0_0_20px_rgba(var(--neon-pink),0.5)];
-  }
-  
-  .neon-tab {
-    @apply px-3 py-1 rounded text-sm transition-all duration-300;
-  }
-  
-  .neon-tab-active {
-    @apply bg-[rgba(var(--neon-pink),0.8)] text-white shadow-[0_0_10px_rgba(var(--neon-pink),0.5)];
-  }
-  
-  .neon-tab-inactive {
-    @apply bg-[rgba(15,10,40,0.7)] text-white hover:bg-[rgba(var(--neon-pink),0.5)];
-  }
+.gradient-bg {
+  background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
 }
+
+.purple-blue-gradient {
+  background: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+}
+
+.pink-purple-gradient {
+  background: linear-gradient(135deg, #EC4899 0%, #8B5CF6 100%);
+}
+
+/* Add any additional custom styles below */
