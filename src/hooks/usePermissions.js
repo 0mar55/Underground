@@ -1,31 +1,27 @@
-import { useEffect } from 'react';
-import { useRBAC } from '../utils/rbac';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { checkPermission } from '../utils/rbac';
 
-// Custom hook for permission checking
-const usePermissions = () => {
-  const { checkPermission } = useRBAC();
-  const [user, setUser] = useState(null);
-  
+export function usePermissions(userRole) {
+  const [permissions, setPermissions] = useState({});
+
   useEffect(() => {
-    // Get user data from localStorage
-    const userData = localStorage.getItem('underground_user');
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
-  }, []);
-  
-  // Check if user has permission
-  const hasPermission = (permission) => {
-    return checkPermission(user, permission);
-  };
-  
-  // Get user role
-  const getUserRole = () => {
-    return user?.role || null;
-  };
-  
-  return { hasPermission, getUserRole, user };
-};
+    // Set up permissions based on role
+    const perms = {
+      canViewOwnerDashboard: checkPermission(userRole, 'owner_dashboard', 'view'),
+      canViewManagerDashboard: checkPermission(userRole, 'manager_dashboard', 'view'),
+      canViewAccountantDashboard: checkPermission(userRole, 'accountant_dashboard', 'view'),
+      canViewStaffDashboard: checkPermission(userRole, 'staff_dashboard', 'view'),
+      canManageUsers: checkPermission(userRole, 'users', 'manage'),
+      canManageRoles: checkPermission(userRole, 'roles', 'manage'),
+      canManageRooms: checkPermission(userRole, 'rooms', 'manage'),
+      canManageInventory: checkPermission(userRole, 'inventory', 'manage'),
+      canViewReports: checkPermission(userRole, 'reports', 'view'),
+      canProcessOrders: checkPermission(userRole, 'orders', 'process'),
+      canManageBookings: checkPermission(userRole, 'bookings', 'manage'),
+    };
+    
+    setPermissions(perms);
+  }, [userRole]);
 
-export default usePermissions;
+  return permissions;
+}
