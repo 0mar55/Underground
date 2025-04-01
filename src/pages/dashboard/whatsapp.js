@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { sendWhatsAppMessage, notifyStaff } from '../../services/whatsapp';
 
 export default function WhatsAppDashboard() {
@@ -17,8 +17,8 @@ export default function WhatsAppDashboard() {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     try {
-      // Using the mock implementation from the service
-      const result = await sendWhatsAppMessage(phoneNumber, message);
+      // Using the mock implementation
+      await sendWhatsAppMessage(phoneNumber, message);
       
       // Add to sent messages for UI display
       setSentMessages([
@@ -50,15 +50,15 @@ export default function WhatsAppDashboard() {
         return;
       }
       
-      // Using the mock implementation from the service
-      const result = await notifyStaff(validNumbers, notification);
+      // Using the mock implementation
+      await notifyStaff(validNumbers, notification);
       
       // Add to sent messages for UI display
       validNumbers.forEach(number => {
-        setSentMessages([
-          ...sentMessages,
+        setSentMessages(prev => [
+          ...prev,
           { 
-            id: sentMessages.length + 1, 
+            id: prev.length + 1, 
             to: number, 
             message: notification, 
             timestamp: new Date().toLocaleString() 
@@ -86,11 +86,11 @@ export default function WhatsAppDashboard() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 neon-text-purple">WhatsApp Notification Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-8">WhatsApp Notification Dashboard</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Send Individual Message */}
-        <div className="neon-card">
+        <div className="bg-gray-800 p-6 rounded-lg">
           <h2 className="text-xl font-semibold mb-4">Send Individual Message</h2>
           <form onSubmit={handleSendMessage}>
             <div className="mb-4">
@@ -100,7 +100,7 @@ export default function WhatsAppDashboard() {
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder="+961 XX XXX XXX"
-                className="w-full p-2 rounded bg-gray-800 border border-gray-700"
+                className="w-full p-2 rounded bg-gray-700 border border-gray-600"
                 required
               />
             </div>
@@ -110,13 +110,13 @@ export default function WhatsAppDashboard() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Enter your message here..."
-                className="w-full p-2 rounded bg-gray-800 border border-gray-700 h-32"
+                className="w-full p-2 rounded bg-gray-700 border border-gray-600 h-32"
                 required
               />
             </div>
             <button 
               type="submit" 
-              className="px-4 py-2 rounded purple-blue-gradient text-white font-semibold"
+              className="px-4 py-2 rounded bg-purple-600 text-white font-semibold"
             >
               Send Message
             </button>
@@ -124,7 +124,7 @@ export default function WhatsAppDashboard() {
         </div>
         
         {/* Notify Staff */}
-        <div className="neon-card">
+        <div className="bg-gray-800 p-6 rounded-lg">
           <h2 className="text-xl font-semibold mb-4">Notify Staff</h2>
           <form onSubmit={handleNotifyStaff}>
             <div className="mb-4">
@@ -136,13 +136,13 @@ export default function WhatsAppDashboard() {
                     value={number}
                     onChange={(e) => updateStaffNumber(index, e.target.value)}
                     placeholder="+961 XX XXX XXX"
-                    className="flex-1 p-2 rounded bg-gray-800 border border-gray-700 mr-2"
+                    className="flex-1 p-2 rounded bg-gray-700 border border-gray-600 mr-2"
                   />
                   {index === staffNumbers.length - 1 && (
                     <button 
                       type="button" 
                       onClick={addStaffNumberField}
-                      className="px-3 py-1 rounded bg-gray-700 text-white"
+                      className="px-3 py-1 rounded bg-gray-600 text-white"
                     >
                       +
                     </button>
@@ -156,13 +156,13 @@ export default function WhatsAppDashboard() {
                 value={notification}
                 onChange={(e) => setNotification(e.target.value)}
                 placeholder="Enter notification for staff..."
-                className="w-full p-2 rounded bg-gray-800 border border-gray-700 h-32"
+                className="w-full p-2 rounded bg-gray-700 border border-gray-600 h-32"
                 required
               />
             </div>
             <button 
               type="submit" 
-              className="px-4 py-2 rounded pink-purple-gradient text-white font-semibold"
+              className="px-4 py-2 rounded bg-pink-600 text-white font-semibold"
             >
               Notify Staff
             </button>
@@ -172,13 +172,13 @@ export default function WhatsAppDashboard() {
       
       {/* Result Message */}
       {sendResult && (
-        <div className={`mt-6 p-4 rounded ${sendResult.success ? 'bg-green-900' : 'bg-red-900'}`}>
+        <div className={`mt-6 p-4 rounded ${sendResult.success ? 'bg-green-800' : 'bg-red-800'}`}>
           {sendResult.message}
         </div>
       )}
       
       {/* Sent Messages History */}
-      <div className="mt-12 neon-card">
+      <div className="mt-12 bg-gray-800 p-6 rounded-lg">
         <h2 className="text-xl font-semibold mb-4">Message History</h2>
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -192,7 +192,7 @@ export default function WhatsAppDashboard() {
             </thead>
             <tbody>
               {sentMessages.map((msg) => (
-                <tr key={msg.id} className="border-b border-gray-800">
+                <tr key={msg.id} className="border-b border-gray-700">
                   <td className="py-3 px-4">{msg.id}</td>
                   <td className="py-3 px-4">{msg.to}</td>
                   <td className="py-3 px-4">{msg.message}</td>
