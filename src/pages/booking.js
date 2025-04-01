@@ -1,207 +1,170 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Booking() {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [date, setDate] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [duration, setDuration] = useState(1);
-  const [persons, setPersons] = useState(5);
-  const [isWeekend, setIsWeekend] = useState(false);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [time, setTime] = useState('');
+  const [room, setRoom] = useState('');
+  const [guests, setGuests] = useState(1);
+  const [message, setMessage] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Mock data for available rooms
-  const availableRooms = [
-    { id: 1, name: 'Neon Lounge', capacity: 8, available: true },
-    { id: 2, name: 'Purple Haze', capacity: 10, available: true },
-    { id: 3, name: 'Blue Velvet', capacity: 6, available: false },
-    { id: 4, name: 'Midnight Oasis', capacity: 12, available: true },
-  ];
-
-  // Calculate price based on requirements
-  const calculatePrice = () => {
-    if (!date || !startTime || duration < 1) return 0;
-    
-    // Check if selected date is weekend (Friday, Saturday)
-    const selectedDate = new Date(date);
-    const day = selectedDate.getDay();
-    const isWeekendDay = day === 5 || day === 6; // 5 = Friday, 6 = Saturday
-    setIsWeekend(isWeekendDay);
-    
-    // Base price: weekdays 375,000 LBP, weekends 500,000 LBP (up to 5 persons)
-    const basePrice = isWeekendDay ? 500000 : 375000;
-    
-    // Extra person: weekdays +75,000 LBP, weekends +100,000 LBP per person
-    const extraPersonRate = isWeekendDay ? 100000 : 75000;
-    const extraPersons = Math.max(0, persons - 5);
-    const extraPersonCharge = extraPersons * extraPersonRate;
-    
-    // Total price = (base price + extra person charge) * duration (hourly)
-    const price = (basePrice + extraPersonCharge) * duration;
-    
-    return price;
-  };
-
-  // Handle date and time changes
-  const handleDateChange = (e) => {
-    setDate(e.target.value);
-    const newPrice = calculatePrice();
-    setTotalPrice(newPrice);
-  };
-
-  const handleTimeChange = (e) => {
-    setStartTime(e.target.value);
-    const newPrice = calculatePrice();
-    setTotalPrice(newPrice);
-  };
-
-  const handleDurationChange = (e) => {
-    setDuration(parseInt(e.target.value));
-    const newPrice = calculatePrice();
-    setTotalPrice(newPrice);
-  };
-
-  const handlePersonsChange = (e) => {
-    setPersons(parseInt(e.target.value));
-    const newPrice = calculatePrice();
-    setTotalPrice(newPrice);
-  };
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-US').format(price);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // In a simplified version, just show success message
+    setIsSubmitted(true);
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Head>
-        <title>Book a Room | Underground Chilling Room</title>
-        <meta name="description" content="Book your private chilling room experience" />
-      </Head>
+    <div className="min-h-screen flex flex-col bg-[url('/images/logo-full.webp')] bg-cover bg-center bg-no-repeat bg-fixed">
+      <div className="min-h-screen flex flex-col backdrop-blur-sm bg-[rgba(5,0,30,0.8)]">
+        <Head>
+          <title>Book a Room | Underground Chilling Room</title>
+          <meta name="description" content="Book a room at Underground Chilling Room" />
+        </Head>
 
-      <header className="bg-uv-dark bg-opacity-90 p-4 shadow-md">
-        <div className="container mx-auto flex justify-between items-center">
-          <Link href="/">
-            <a className="text-2xl font-bold text-white">Underground</a>
-          </Link>
-          <h1 className="text-xl font-bold text-white">Room Booking</h1>
-        </div>
-      </header>
-
-      <main className="flex-grow container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="card">
-            <h2 className="text-xl font-bold mb-4 text-uv-purple">Book Your Room</h2>
-            <form className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">Date</label>
-                <input 
-                  type="date" 
-                  className="input-field w-full"
-                  value={date}
-                  onChange={handleDateChange}
-                  min={new Date().toISOString().split('T')[0]}
-                  required
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-1">Start Time</label>
-                <input 
-                  type="time" 
-                  className="input-field w-full"
-                  value={startTime}
-                  onChange={handleTimeChange}
-                  required
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-1">Duration (hours)</label>
-                <input 
-                  type="number" 
-                  className="input-field w-full"
-                  value={duration}
-                  onChange={handleDurationChange}
-                  min="1"
-                  max="12"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-1">Number of Persons</label>
-                <input 
-                  type="number" 
-                  className="input-field w-full"
-                  value={persons}
-                  onChange={handlePersonsChange}
-                  min="1"
-                  max="20"
-                  required
-                />
-              </div>
-              
-              <div className="bg-uv-dark bg-opacity-50 p-4 rounded">
-                <h3 className="font-bold text-uv-purple mb-2">Price Calculation</h3>
-                <p>Base rate: {isWeekend ? '500,000' : '375,000'} LBP (up to 5 persons)</p>
-                {persons > 5 && (
-                  <p>Extra person charge: {formatPrice((persons - 5) * (isWeekend ? 100000 : 75000))} LBP</p>
-                )}
-                <p>Duration: {duration} hour(s)</p>
-                <p className="font-bold mt-2">Total: {formatPrice(totalPrice)} LBP</p>
-              </div>
-            </form>
+        <header className="bg-[rgba(5,0,30,0.8)] backdrop-blur-md p-4 shadow-[0_0_15px_rgba(var(--neon-blue),0.5)]">
+          <div className="container mx-auto flex justify-between items-center">
+            <Link href="/">
+              <Image 
+                src="/images/logo-simple.webp" 
+                alt="Underground Logo" 
+                width={200} 
+                height={50} 
+                className="h-10 w-auto"
+              />
+            </Link>
+            <nav>
+              <Link href="/dashboard/overview" className="text-white hover:text-[rgb(var(--neon-pink))]">
+                View Rooms & Services
+              </Link>
+            </nav>
           </div>
-          
-          <div className="space-y-6">
-            <div className="card">
-              <h2 className="text-xl font-bold mb-4 text-uv-purple">Available Rooms</h2>
-              <div className="space-y-3">
-                {availableRooms.map(room => (
-                  <div 
-                    key={room.id} 
-                    className={`p-3 rounded-lg border ${room.available 
-                      ? 'border-uv-purple/30 bg-uv-dark/50' 
-                      : 'border-gray-700 bg-gray-900/50 opacity-50'}`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h3 className="font-bold">{room.name}</h3>
-                        <p className="text-sm">Capacity: {room.capacity} persons</p>
-                      </div>
-                      {room.available ? (
-                        <button className="btn-primary text-sm">Select</button>
-                      ) : (
-                        <span className="text-sm text-gray-400">Unavailable</span>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+        </header>
+
+        <main className="flex-grow container mx-auto px-4 py-8">
+          <div className="max-w-2xl mx-auto">
+            <h2 className="text-2xl font-bold mb-6 neon-text">Book a Room</h2>
             
-            <div className="card">
-              <h2 className="text-xl font-bold mb-4 text-uv-purple">Booking Information</h2>
-              <ul className="space-y-2 text-sm">
-                <li>• Bookings require staff confirmation</li>
-                <li>• Weekday rates: 375,000 LBP base (up to 5 persons)</li>
-                <li>• Weekend rates: 500,000 LBP base (up to 5 persons)</li>
-                <li>• Extra person: +75,000 LBP (weekday) or +100,000 LBP (weekend)</li>
-                <li>• All prices are per hour</li>
-                <li>• Minimum booking duration: 1 hour</li>
-              </ul>
-              
-              <button className="btn-primary w-full mt-4">Request Booking</button>
-            </div>
+            {isSubmitted ? (
+              <div className="card neon-border-green">
+                <h3 className="text-xl font-bold mb-4 neon-text-green">Booking Request Received!</h3>
+                <p className="mb-4">Thank you for your booking request. We will contact you shortly to confirm your reservation.</p>
+                <div className="flex space-x-4">
+                  <Link href="/dashboard/overview" className="btn-primary">
+                    View Rooms & Services
+                  </Link>
+                  <Link href="/" className="btn-secondary">
+                    Return to Home
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="card neon-border">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Your Name</label>
+                    <input 
+                      type="text" 
+                      className="input-field w-full"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Phone Number</label>
+                    <input 
+                      type="tel" 
+                      className="input-field w-full"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Date</label>
+                    <input 
+                      type="date" 
+                      className="input-field w-full"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Time</label>
+                    <input 
+                      type="time" 
+                      className="input-field w-full"
+                      value={time}
+                      onChange={(e) => setTime(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Room</label>
+                    <select 
+                      className="input-field w-full"
+                      value={room}
+                      onChange={(e) => setRoom(e.target.value)}
+                      required
+                    >
+                      <option value="">Select a room</option>
+                      <option value="neon-lounge">Neon Lounge</option>
+                      <option value="purple-haze">Purple Haze</option>
+                      <option value="midnight-oasis">Midnight Oasis</option>
+                      <option value="electric-dreams">Electric Dreams</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Number of Guests</label>
+                    <input 
+                      type="number" 
+                      min="1"
+                      max="10"
+                      className="input-field w-full"
+                      value={guests}
+                      onChange={(e) => setGuests(parseInt(e.target.value))}
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div className="mb-4">
+                  <label className="block text-sm font-medium mb-1">Special Requests</label>
+                  <textarea 
+                    className="input-field w-full h-24"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  ></textarea>
+                </div>
+                
+                <button type="submit" className="btn-primary w-full">
+                  Submit Booking Request
+                </button>
+              </form>
+            )}
           </div>
-        </div>
-      </main>
+        </main>
 
-      <footer className="bg-uv-dark bg-opacity-90 p-4">
-        <div className="container mx-auto text-center text-white text-sm">
-          <p>© 2025 Underground Chilling Room. All rights reserved.</p>
-        </div>
-      </footer>
+        <footer className="bg-[rgba(5,0,30,0.8)] backdrop-blur-md p-4 shadow-[0_0_15px_rgba(var(--neon-blue),0.5)]">
+          <div className="container mx-auto text-center text-sm">
+            <p className="neon-text">© 2025 Underground Chilling Room. All rights reserved.</p>
+            <p className="mt-2">For immediate assistance, call +961 81 540 918</p>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }
