@@ -1,5 +1,34 @@
 import { useState, useEffect } from 'react';
-import { checkPermission } from '../utils/rbac';
+
+// Simple permission check function
+const checkPermission = (role, resource, action) => {
+  // Owner has all permissions
+  if (role === 'owner') return true;
+  
+  // Manager permissions
+  if (role === 'manager') {
+    if (resource === 'owner_dashboard') return false;
+    if (resource === 'users' && action === 'manage') return false;
+    return true;
+  }
+  
+  // Accountant permissions
+  if (role === 'accountant') {
+    if (resource === 'inventory' && (action === 'view' || action === 'manage')) return true;
+    if (resource === 'reports' && action === 'view') return true;
+    return false;
+  }
+  
+  // Staff permissions
+  if (role === 'staff') {
+    if (resource === 'orders' && action === 'process') return true;
+    if (resource === 'bookings' && action === 'view') return true;
+    return false;
+  }
+  
+  // Default deny
+  return false;
+};
 
 export function usePermissions(userRole) {
   const [permissions, setPermissions] = useState({});
