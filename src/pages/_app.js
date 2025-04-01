@@ -1,39 +1,49 @@
-import '../styles/globals.css';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import '../styles/globals.css';
+import { checkAuthStatus } from '../services/auth';
 
-function MyApp({ Component, pageProps }) {
+function UndergroundApp({ Component, pageProps }) {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  
   useEffect(() => {
-    // Register service worker for PWA
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js').then(
-          function(registration) {
-            console.log('Service Worker registration successful with scope: ', registration.scope);
-          },
-          function(err) {
-            console.log('Service Worker registration failed: ', err);
-          }
-        );
-      });
+    // Check authentication status
+    const { isAuthenticated, user } = checkAuthStatus();
+    setIsAuthenticated(isAuthenticated);
+    setUser(user);
+    setIsLoading(false);
+    
+    // Redirect to auth page if not authenticated and not already on auth page
+    if (!isAuthenticated && router.pathname !== '/auth' && router.pathname !== '/') {
+      router.push('/auth');
     }
-  }, []);
-
+  }, [router.pathname]);
+  
+  if (isLoading) {
+    return <div className="loading">Loading...</div>;
+  }
+  
   return (
     <>
       <Head>
-        <meta charSet="utf-8" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <meta name="description" content="Underground Chilling Room - Mobile app for room rental service with food, beverages, and arguile service" />
-        <meta name="theme-color" content="#5D3FD3" />
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" href="/favicon.ico" />
         <title>Underground Chilling Room</title>
+        <meta name="description" content="Underground Chilling Room - Food, Beverage, and Arguile Service" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#121212" />
+        <meta property="og:title" content="Underground Chilling Room" />
+        <meta property="og:description" content="Underground Chilling Room - Food, Beverage, and Arguile Service" />
+        <meta property="og:url" content="https://undergr0und.space" />
+        <meta property="og:type" content="website" />
       </Head>
-      <Component {...pageProps} />
+      <Component {...pageProps} isAuthenticated={isAuthenticated} user={user} />
     </>
-  );
+  ) ;
 }
 
-export default MyApp;
+export default UndergroundApp;
